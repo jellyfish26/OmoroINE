@@ -27,14 +27,3 @@ def access(query, db_name):
     cursor.close()
     connection.close()
     return result
-
-if __name__ == '__main__':
-    data = ['1', 'ae', '8']
-    _result = getStation(data)
-    out = []
-    for i in range(3,7):
-        print(_result[0][i])
-        out.append(_result[0][i])
-    print(out)
-    dict_g = {'Company' : out[0],'LineName' : out[1] ,'StatineName' : out[2],'Memo' : out[3]}
-    json.dumps(dict_g, ensure_ascii=False, indent=4)
