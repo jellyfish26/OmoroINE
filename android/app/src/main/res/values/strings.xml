@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">OmoroIC</string>
+    <string name="title_login">ログイン</string>
+    <string name="hint_login">このアプリケーションを使用するには、LINEアカウントでのログインが必要です。</string>
+    <string name="do_login">LINEを使用してログイン</string>
+    <string name="quit_login">終了</string>
 </resources>
