@@ -16,18 +16,19 @@ def add_location(id, station):
         access('INSERT INTO temp_location(line_id,station) VALUES {}'.format((id, station)))
 
 def get(id):
-    return access("SELECT * FROM temp WHERE line_id == '{}'".format(id))[0]
+    return access("SELECT * FROM temp WHERE line_id == '{}'".format(id))
 
 def get_location(id):
-    return access("SELECT * FROM temp_location WHERE line_id == '{}'".format(id))[0]
+    return access("SELECT * FROM temp_location WHERE line_id == '{}'".format(id))
 
 def delete(id):
-    access("DELETE FROM temp WHERE line_id=='{}'".format(id))
+    access("DELETE FROM temp WHERE line_id == '{}'".format(id))
 
 def delete_location(id):
-    access("DELETE FROM temp_location WHERE line_id=='{}'".format(id))
+    access("DELETE FROM temp_location WHERE line_id == '{}'".format(id))
 
 def access(query):
+    print(query)
     connection = sqlite3.connect('db/temp.db')
     cursor = connection.cursor()
     try:
@@ -45,3 +46,6 @@ def access(query):
 def init_temp_db():
     access('''CREATE TABLE temp(line_id TEXT NOT NULL,type TEXT NOT NULL ,value TEXT NOT NULL,timestamp INTEGER NOT NULL, PRIMARY KEY(line_id));''')
     access('''CREATE TABLE temp_location(line_id TEXT NOT NULL PRIMARY KEY ,station TEXT NOT NULL);''')
+
+if __name__ == '__main__':
+    init_temp_db()
