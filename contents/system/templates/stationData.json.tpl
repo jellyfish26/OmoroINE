@@ -1,1 +1,0 @@
-{'Company' : "{}",'LineName' : "{}" ,'StatineName' : "{}",'Memo' : "{}"}
