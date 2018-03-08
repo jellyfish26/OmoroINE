@@ -45,12 +45,16 @@ def postRegistData():
         return 'success'
     else:
         return 'failure'
-    
+
 # PATH設定
 # 送られてきた画像を保存
 @route('/img/<filename>')
 def route_img(filename):
     return static_file(filename, root='contents/user/img')
+
+@route('/img/preview/<filename>')
+def route_img_preview(filename):
+    return static_file(filename, root='contents/system/preview')
 
 @route('/css/<filename>')
 def route_css(filename):
@@ -67,10 +71,6 @@ def route_fonts(filename):
 @route('/images/<filename>')
 def route_images(filename):
     return static_file(filename, root='views/images/')
-
-@route('/db/<filename>')
-def route_db(filename):
-    return static_file(filename, root='db/')
 
 run(host='0.0.0.0', port=4490, debug=True, reloader=True)
 
