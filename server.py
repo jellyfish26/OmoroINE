@@ -1,7 +1,6 @@
 from bottle import *
 from module import *
 import json
-from module_db import *
 from linebot import webhook
 import setting
 import main

@@ -37,8 +37,8 @@ def GeneratPreview(img_url):
         return False
     return True
 
-if __name__ == '__main__':
-    position = [34.697164, 135.508032]
-    result = isStation(position)
-    print(result)
-    print(issueUnique())
+# if __name__ == '__main__':
+#     position = [34.697164, 135.508032]
+#     result = isStation(position)
+#     print(result)
+#     print(issueUnique())

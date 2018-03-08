@@ -53,7 +53,7 @@ def add(data):
 
 def random_select(line, station):
     try:
-        arts = access('''SELECT * FROM main WHERE line=={} AND station=={}'''.format(line, station), 'db/main.db')
+        arts = access('''SELECT * FROM main WHERE line=="{}" AND station=="{}"'''.format(line, station), 'db/main.db')
         return random.choice(arts)
     except:
         return None
@@ -83,8 +83,6 @@ def init_main_db():
 
 
 if __name__ == '__main__':
-    # init_main_db()
-    data = ['"橿原線"', '"近鉄郡山駅"', '"text"', '"古い"', '1']
-    add(data)
+    init_main_db()
 
     # u_id INTEGER PRIMARY KEY,
