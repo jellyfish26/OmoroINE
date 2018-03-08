@@ -1,4 +1,4 @@
-# MANZINE
+# OmoroINE
 This is TRUNKHackathon's project (in Osaka 2018)
 
 関西の駅で、もっと面白く。
