@@ -1,4 +1,4 @@
-import json, requests, os
+import json, requests, uuid
 
 # 位置情報から線と駅情報を取得
 def isStation(position):
@@ -13,8 +13,16 @@ def isStation(position):
     ]
     return out
 
+# ユニークID発行
+def issueUnique():
+    uniqueId = uuid.uuid4()
+    return uniqueId
+
+def GeneratPreview(img_url):
+    pass
 
 if __name__ == '__main__':
     position = [34.697164, 135.508032]
     result = isStation(position)
     print(result)
+    print(issueUnique())
