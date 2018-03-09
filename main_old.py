@@ -6,7 +6,6 @@ import setting
 import module
 from linebot.models import PostbackTemplateAction
 
-
 def main(events):
     for event in events:
         event_dict = event.as_json_dict()
@@ -39,7 +38,7 @@ def message(event_dict):
         if len(station) > 5:
             station = station[:4]
 
-        line_api.reply_template_button(event_dict['replyToken'], '駅を選択して下さい', '駅を選択して下さい', station)
+        line_api.reply_template_button(event_dict['replyToken'], '駅を選択して下さい', '駅を選択してください', station)
         return
 
     # 画像が送られてきた時
@@ -77,7 +76,6 @@ def postback(event_dict):
                 PostbackTemplateAction(label='ええよ', data='yes'),
                 PostbackTemplateAction(label='ないわ', data='no'),
             ])
-            return
         else:
             data = data[1:]
             result = mainDB.random_select(data[0], data[1])
@@ -88,37 +86,27 @@ def postback(event_dict):
             elif result[3] == 'image':
                 module.GeneratPreview('contents/user/img/'+result[4])
                 line_api.push_image(event_dict['source']['userId'], 'https://trompot.mydns.jp/hack/img/'+result[4], 'https://trompot.mydns.jp/hack/img/preview/'+result[4])
-            line_api.reply_template_carousel(event_dict['replyToken'], 'どうでしたか?', 'どうでしたか?', str(result[0])+' '+tempDB.issue_token(result[0]))
+            line_api.reply_template_carousel(event_dict['replyToken'], 'どうでしたか?', 'どうでしたか?', result[0])
 
     id = 0
-    token = ''
-    if len(data) == 3:
+    if len(data) == 2:
         id = data[1]
-        token = data[2]
-        if not tempDB.isvalid_token(id, token):
-            line_api.reply_message(event_dict['replyToken'], 'すでに回答されています')
-            return
     data = data[0]
     if data == '5':
         mainDB.update(id, 5)
         line_api.reply_message(event_dict['replyToken'], '評価ありがとうございます')
-        tempDB.delete_token(id, token)
     elif data == '4':
         mainDB.update(id, 4)
         line_api.reply_message(event_dict['replyToken'], '評価ありがとうございます')
-        tempDB.delete_token(id, token)
     elif data == '3':
         mainDB.update(id, 3)
         line_api.reply_message(event_dict['replyToken'], '評価ありがとうございます')
-        tempDB.delete_token(id, token)
     elif data == '2':
         mainDB.update(id, 2)
         line_api.reply_message(event_dict['replyToken'], '評価ありがとうございます')
-        tempDB.delete_token(id, token)
     elif data == '1':
         mainDB.update(id, 1)
         line_api.reply_message(event_dict['replyToken'], '評価ありがとうございます')
-        tempDB.delete_token(id, token)
     elif data == 'yes':
         data = tempDB.get(event_dict['source']['userId'])[0]
         location = tempDB.get_location(event_dict['source']['userId'])[0][1].split()
