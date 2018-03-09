@@ -12,7 +12,7 @@ import android.content.ContentValues.TAG
 
 class NfcReader {
 
-    fun readTag(tag: Tag): Array<ByteArray>? {
+    fun readTag(tag: Tag): ByteArray? {
         val nfc = NfcF.get(tag)
         try {
             nfc.connect()
@@ -117,26 +117,15 @@ class NfcReader {
      */
     @Throws(Exception::class)
 
-    private fun parse(res: ByteArray): Array<ByteArray> {
-        // res[10] エラーコード。0x00の場合が正常
-        for (a in res.indices) {
-            Log.d("hex:", Integer.toHexString(res[a].toInt()))
-        }
+    private fun parse(res: ByteArray): ByteArray {
         if (res[10].toInt() != 0x00)
             throw RuntimeException("this code is " + res[10])
 
         // res[12] 応答ブロック数
         // res[13 + n * 16] 実データ 16(byte/ブロック)の繰り返し
-        val size = res[12].toInt()
-        val data = Array(size) { ByteArray(16) }
-        for (i in 0 until size) {
-            val tmp = ByteArray(16)
-            val offset = 13 + i * 16
-            for (j in 0..15) {
-                tmp[j] = res[offset + j]
-            }
-
-            data[i] = tmp
+        val data: ByteArray = ByteArray(64)
+        for(a in 0..res.size - 14) {
+            data[a] = res[a + 13]
         }
         return data
     }
