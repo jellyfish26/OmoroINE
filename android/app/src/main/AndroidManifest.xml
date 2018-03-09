@@ -3,6 +3,7 @@
           package="joken.ac.jp.omoroic">
 
     <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-feature
         android:name="android.hardware.nfc"
         android:required="true" />
@@ -20,6 +21,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+
+        <activity android:name=".LoginActivity">
         </activity>
     </application>
 

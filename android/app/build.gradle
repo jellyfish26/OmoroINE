@@ -26,6 +26,7 @@ dependencies {
     compile 'com.beardedhen:androidbootstrap:2.3.2'
     compile 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile(name:'line-sdk-4.0.7', ext:'aar')
 
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
