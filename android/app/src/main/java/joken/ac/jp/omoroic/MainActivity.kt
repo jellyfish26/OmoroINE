@@ -37,7 +37,8 @@ class MainActivity : AppCompatActivity()
 
     private lateinit var subscriber : Disposable
     private val service = ApiBuild().create(SendApi::class.java)
-    private var stationDataList : List<StationData> = mutableListOf()
+    private val sendActivityIntent = Intent(this, SendActivity::class.java)
+    private var dataCounter = 0
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -140,11 +141,9 @@ class MainActivity : AppCompatActivity()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    data -> stationDataList += data
-                    if(stationDataList.size >= 4){
-                        val i = Intent(this, SendActivity::class.java)
-                        i.putExtra("stationData", stationDataList.toTypedArray())
-                        startActivity(i)
+                    data -> sendActivityIntent.putExtra("stationData", data)
+                    if(dataCounter >= 4){
+                        startActivity(sendActivityIntent)
                     }
                 })
     }

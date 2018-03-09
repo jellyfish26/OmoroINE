@@ -1,6 +1,7 @@
 package joken.ac.jp.omoroic
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 /**
  * response data of station
@@ -13,4 +14,4 @@ data class StationData(
         @SerializedName("StationName")
         val stationName: String,
         @SerializedName("Memo")
-        val misc: String)
+        val misc: String) : Serializable
