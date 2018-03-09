@@ -1,5 +1,4 @@
 import sqlite3
-import secrets
 
 
 def add(id, type, timestamp, value):
@@ -28,22 +27,8 @@ def delete(id):
 def delete_location(id):
     access("DELETE FROM temp_location WHERE line_id == '{}'".format(id))
 
-def issue_token(id):
-    token = secrets.token_hex()
-    access('''INSERT INTO rating_token(line_id, token) VALUES {}'''.format((id, str(token))))
-    return token
-
-def isvalid_token(id, token):
-    result = access('''SELECT * FROM rating_token WHERE line_id == "{}" AND token == "{}"'''.format(id, token))
-    if result:
-        return True
-    return False
-
-def delete_token(id, token):
-    access("DELETE FROM rating_token WHERE line_id == '{}' AND token == '{}'".format(id, token))
-
-
 def access(query):
+    print(query)
     connection = sqlite3.connect('db/temp.db')
     cursor = connection.cursor()
     try:
@@ -59,10 +44,8 @@ def access(query):
     return result
 
 def init_temp_db():
-    # access('''CREATE TABLE temp(line_id TEXT NOT NULL,type TEXT NOT NULL ,value TEXT NOT NULL,timestamp INTEGER NOT NULL, PRIMARY KEY(line_id));''')
-    # access('''CREATE TABLE temp_location(line_id TEXT NOT NULL PRIMARY KEY ,station TEXT NOT NULL);''')
-    access('''CREATE TABLE rating_token(line_id TEXT NOT NULL PRIMARY KEY ,token TEXT NOT NULL);''')
-
+    access('''CREATE TABLE temp(line_id TEXT NOT NULL,type TEXT NOT NULL ,value TEXT NOT NULL,timestamp INTEGER NOT NULL, PRIMARY KEY(line_id));''')
+    access('''CREATE TABLE temp_location(line_id TEXT NOT NULL PRIMARY KEY ,station TEXT NOT NULL);''')
 
 if __name__ == '__main__':
     init_temp_db()
