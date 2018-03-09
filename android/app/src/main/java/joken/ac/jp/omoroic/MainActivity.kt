@@ -83,8 +83,36 @@ class MainActivity : AppCompatActivity()
         // IntentにTagの基本データが入ってくるので取得。
         val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG) ?: return
 
-        nfcReader.readTag(tag)
+        var NFCans: ByteArray = nfcReader.readTag(tag)!!
 
+        for(a in 0..NFCans.size - 1)
+        {
+            Log.d("tagtag: " + a, Integer.toHexString(NFCans[a].toInt()))
+        }
+
+        for(a in 0..4) {
+            if(Integer.toHexString(NFCans[1 + a * 15].toInt()) == "1") {
+                if(NFCans[6 + a * 15].toInt() >= 0){
+                    //Localcode 0
+                }else {
+                    if(NFCans[15 + a * 15].toInt() == -96){
+                        //Localcode 2
+                    }else{
+                        //Localcode 1
+                    }
+                }
+                if(Integer.toHexString(NFCans[6 + a * 15].toInt()).length  <= 2 ) {
+                    // Integer.toHexString(NFCans[6 + a * 15].toInt()) is LineCode
+                }else{
+                    // Integer.toHexString(NFCans[6 + a * 15].toInt()).substring(7,8) is LineCode
+                }
+                if(Integer.toHexString(NFCans[7 + a * 15].toInt()).length  <= 2 ) {
+                    // Integer.toHexString(NFCans[7 + a * 15].toInt()) is LineCode
+                }else{
+                    // Integer.toHexString(NFCans[7 + a * 15].toInt()).substring(7,8) is LineCode
+                }
+            }
+        }
     }
 
     override fun onPause()
