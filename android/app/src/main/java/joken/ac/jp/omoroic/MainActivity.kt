@@ -11,6 +11,10 @@ import android.nfc.tech.NfcF
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import okio.ByteString
 import java.io.BufferedReader
 import java.io.FileInputStream
@@ -30,6 +34,10 @@ class MainActivity : AppCompatActivity()
     private var KeyStoreM: AndroidKeyStoreManager? = null
 
     private var Stoken: String? = null
+
+    private lateinit var subscriber : Disposable
+    private val service = ApiBuild().create(SendApi::class.java)
+    private var stationDataList : List<StationData> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -84,6 +92,9 @@ class MainActivity : AppCompatActivity()
         val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG) ?: return
 
         var NFCans: ByteArray = nfcReader.readTag(tag)!!
+        var localcode = ""
+        var linecode = ""
+        var stationcode = ""
 
         for(a in 0..NFCans.size - 1)
         {
@@ -94,25 +105,48 @@ class MainActivity : AppCompatActivity()
             if(Integer.toHexString(NFCans[1 + a * 15].toInt()) == "1") {
                 if(NFCans[6 + a * 15].toInt() >= 0){
                     //Localcode 0
+                    localcode = "0"
                 }else {
                     if(NFCans[15 + a * 15].toInt() == -96){
                         //Localcode 2
+                        localcode = "2"
                     }else{
                         //Localcode 1
+                        localcode = "1"
                     }
                 }
                 if(Integer.toHexString(NFCans[6 + a * 15].toInt()).length  <= 2 ) {
                     // Integer.toHexString(NFCans[6 + a * 15].toInt()) is LineCode
+                    linecode = Integer.toHexString(NFCans[6 + a * 15].toInt())
                 }else{
                     // Integer.toHexString(NFCans[6 + a * 15].toInt()).substring(7,8) is LineCode
+                    linecode = Integer.toHexString(NFCans[6 + a * 15].toInt()).substring(7,8)
                 }
                 if(Integer.toHexString(NFCans[7 + a * 15].toInt()).length  <= 2 ) {
-                    // Integer.toHexString(NFCans[7 + a * 15].toInt()) is LineCode
+                    // Integer.toHexString(NFCans[7 + a * 15].toInt()) is stationCode
+                    stationcode = Integer.toHexString(NFCans[7 + a * 15].toInt())
                 }else{
-                    // Integer.toHexString(NFCans[7 + a * 15].toInt()).substring(7,8) is LineCode
+                    // Integer.toHexString(NFCans[7 + a * 15].toInt()).substring(7,8) is stationCode
+                    stationcode = Integer.toHexString(NFCans[7 + a * 15].toInt()).substring(7,8)
                 }
             }
         }
+        val icCardData = icCardData(localcode, linecode, stationcode)
+        sendIcCardData(icCardData)
+    }
+
+    fun sendIcCardData(icCardData: icCardData){
+        service.postICData(icCardData)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    data -> stationDataList += data
+                    if(stationDataList.size >= 4){
+                        val i = Intent(this, SendActivity::class.java)
+                        i.putExtra("stationData", stationDataList.toTypedArray())
+                        startActivity(i)
+                    }
+                })
     }
 
     override fun onPause()

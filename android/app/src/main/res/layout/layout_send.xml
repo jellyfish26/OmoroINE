@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toTopOf="@+id/button_send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_send"/>
 
     <com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/button_send"
@@ -26,13 +26,13 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:enabled="true"
         app:bootstrapBrand="primary"
         app:bootstrapSize="lg"
         app:bootstrapText="@string/confirm_ok"
         app:layout_constraintBottom_toTopOf="@+id/button_send_cancel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/button_send_cancel"

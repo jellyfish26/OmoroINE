@@ -9,12 +9,10 @@ import retrofit2.converter.gson.GsonConverterFactory
  * Util class
  */
 
-class ApiBuilder {
-    fun apiBuild(): Retrofit {
-        return Retrofit.Builder()
-                .baseUrl("https://trompot.mydns.jp/hack/api")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build()
-    }
+fun ApiBuild(): Retrofit {
+    return Retrofit.Builder()
+            .baseUrl("https://trompot.mydns.jp/hack/api")
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
 }
