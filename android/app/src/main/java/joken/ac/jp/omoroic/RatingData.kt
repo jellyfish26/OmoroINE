@@ -7,11 +7,11 @@ import com.google.gson.annotations.SerializedName
  */
 data class RatingData(
         @SerializedName("line")
-        val line:String,
+        val line: String,
         @SerializedName("station")
-        val station:String,
+        val station: String,
         @SerializedName("value")
-        val netaType:String,
+        val netaType: String,
         @SerializedName("value")
-        val ratingCount:Int
+        val ratingCount: Int
 )
