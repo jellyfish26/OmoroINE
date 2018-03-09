@@ -9,6 +9,6 @@
     <string name="nfc_waiting">ICカードを本体近くにかざしてください</string>
     <string name="nfc_permission_required">本アプリケーションはNFCの使用権限が必要です。</string>
     <string name="nfc_power_required">本体設定からNFCをONにしてください。</string>
-    <string name="confirm_ok">OK</string>
-    <string name="confirm_no">キャンセル</string>
+    <string name="confirm_ok">おくるで</string>
+    <string name="confirm_no">あかんで</string>
 </resources>
