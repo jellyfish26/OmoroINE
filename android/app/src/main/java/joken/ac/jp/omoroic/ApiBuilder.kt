@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 fun ApiBuild(): Retrofit {
     return Retrofit.Builder()
-            .baseUrl("https://trompot.mydns.jp/hack/api")
+            .baseUrl("https://trompot.mydns.jp/hack/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()

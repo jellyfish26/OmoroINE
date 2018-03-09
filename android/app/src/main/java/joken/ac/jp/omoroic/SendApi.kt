@@ -9,10 +9,10 @@ import retrofit2.http.POST
  */
 interface SendApi {
 
-    @POST("/station")
+    @POST("station")
     fun postICData(@Body icData: icCardData): Observable<StationData>
 
-    @POST("/register")
+    @POST("register")
     fun postRating(@Body ratingData: RatingData): Observable<Void>
 
 }

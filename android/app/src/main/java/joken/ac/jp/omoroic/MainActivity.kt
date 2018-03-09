@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.nfc.NfcAdapter
 import android.nfc.Tag
+import android.nfc.TagLostException
 import android.nfc.tech.NfcF
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -22,8 +23,7 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.nio.charset.Charset
 
-class MainActivity : AppCompatActivity()
-{
+class MainActivity : AppCompatActivity() {
 
     private var intentFiltersArray: Array<IntentFilter>? = null
     private var techListsArray: Array<Array<String>>? = null
@@ -35,15 +35,15 @@ class MainActivity : AppCompatActivity()
 
     private var Stoken: String? = null
 
-    private lateinit var subscriber : Disposable
+    private lateinit var subscriber: Disposable
     private val service = ApiBuild().create(SendApi::class.java)
-    private val sendActivityIntent = Intent(this, SendActivity::class.java)
+    private lateinit var sendActivityIntent: Intent
     private var dataCounter = 0
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        sendActivityIntent = Intent(this, SendActivity::class.java)
 
         pendingIntent = PendingIntent.getActivity(
                 this, 0, Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0)
@@ -52,9 +52,9 @@ class MainActivity : AppCompatActivity()
 
         KeyStoreM = AndroidKeyStoreManager.getInstance(this)
 
-        var pref: SharedPreferences = getSharedPreferences("pref",MODE_PRIVATE)
+        var pref: SharedPreferences = getSharedPreferences("pref", MODE_PRIVATE)
 
-        if(pref.getString("token","") == "") {
+        if (pref.getString("token", "") == "") {
             startActivity(intent)
         }
 
@@ -62,12 +62,9 @@ class MainActivity : AppCompatActivity()
 
         val ndef = IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED)
 
-        try
-        {
+        try {
             ndef.addDataType("text/plain")
-        }
-        catch (e: IntentFilter.MalformedMimeTypeException)
-        {
+        } catch (e: IntentFilter.MalformedMimeTypeException) {
             throw RuntimeException("fail", e)
         }
 
@@ -80,55 +77,57 @@ class MainActivity : AppCompatActivity()
 
     }
 
-    override fun onResume()
-    {
+    override fun onResume() {
         super.onResume()
         // NFCの読み込みを有効化
         mAdapter?.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, techListsArray)
     }
 
-    override fun onNewIntent(intent: Intent)
-    {
+    override fun onNewIntent(intent: Intent) {
         // IntentにTagの基本データが入ってくるので取得。
         val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG) ?: return
+        var NFCans: ByteArray = kotlin.ByteArray(256)
 
-        var NFCans: ByteArray = nfcReader.readTag(tag)!!
+        try {
+            NFCans = nfcReader.readTag(tag)!!
+        } catch (e: TagLostException) {
+            e.printStackTrace()
+        }
         var localcode = ""
         var linecode = ""
         var stationcode = ""
 
-        for(a in 0..NFCans.size - 1)
-        {
+        for (a in 0..NFCans.size - 1) {
             Log.d("tagtag: " + a, Integer.toHexString(NFCans[a].toInt()))
         }
 
-        for(a in 0..4) {
-            if(Integer.toHexString(NFCans[1 + a * 15].toInt()) == "1") {
-                if(NFCans[6 + a * 15].toInt() >= 0){
+        for (a in 0..4) {
+            if (Integer.toHexString(NFCans[1 + a * 15].toInt()) == "1") {
+                if (NFCans[6 + a * 15].toInt() >= 0) {
                     //Localcode 0
                     localcode = "0"
-                }else {
-                    if(NFCans[15 + a * 15].toInt() == -96){
+                } else {
+                    if (NFCans[15 + a * 15].toInt() == -96) {
                         //Localcode 2
                         localcode = "2"
-                    }else{
+                    } else {
                         //Localcode 1
                         localcode = "1"
                     }
                 }
-                if(Integer.toHexString(NFCans[6 + a * 15].toInt()).length  <= 2 ) {
+                if (Integer.toHexString(NFCans[6 + a * 15].toInt()).length <= 2) {
                     // Integer.toHexString(NFCans[6 + a * 15].toInt()) is LineCode
                     linecode = Integer.toHexString(NFCans[6 + a * 15].toInt())
-                }else{
+                } else {
                     // Integer.toHexString(NFCans[6 + a * 15].toInt()).substring(7,8) is LineCode
-                    linecode = Integer.toHexString(NFCans[6 + a * 15].toInt()).substring(7,8)
+                    linecode = Integer.toHexString(NFCans[6 + a * 15].toInt()).substring(7, 8)
                 }
-                if(Integer.toHexString(NFCans[7 + a * 15].toInt()).length  <= 2 ) {
+                if (Integer.toHexString(NFCans[7 + a * 15].toInt()).length <= 2) {
                     // Integer.toHexString(NFCans[7 + a * 15].toInt()) is stationCode
                     stationcode = Integer.toHexString(NFCans[7 + a * 15].toInt())
-                }else{
+                } else {
                     // Integer.toHexString(NFCans[7 + a * 15].toInt()).substring(7,8) is stationCode
-                    stationcode = Integer.toHexString(NFCans[7 + a * 15].toInt()).substring(7,8)
+                    stationcode = Integer.toHexString(NFCans[7 + a * 15].toInt()).substring(7, 8)
                 }
             }
         }
@@ -136,20 +135,18 @@ class MainActivity : AppCompatActivity()
         sendIcCardData(icCardData)
     }
 
-    fun sendIcCardData(icCardData: icCardData){
+    fun sendIcCardData(icCardData: icCardData) {
         service.postICData(icCardData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    data -> sendActivityIntent.putExtra("stationData", data)
-                    if(dataCounter >= 4){
-                        startActivity(sendActivityIntent)
-                    }
+                .subscribe({ data ->
+                    sendActivityIntent.putExtra("stationData", data)
+                    startActivity(sendActivityIntent)
+                    finish()
                 })
     }
 
-    override fun onPause()
-    {
+    override fun onPause() {
         super.onPause()
         mAdapter?.disableForegroundDispatch(this)
     }

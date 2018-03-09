@@ -2,6 +2,7 @@ package joken.ac.jp.omoroic
 
 import android.content.Context
 import android.graphics.Typeface
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +46,7 @@ class CardRecyclerAdapter(val context: Context, val itemList: MutableList<Statio
     companion object {
 
         private class StationDataViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+            val cotainderCard : CardView by bindView(R.id.card)
             val stationNameView: TextView by bindView(R.id.station_name)
             val lineNameView: TextView by bindView(R.id.line_name)
             val miscView: TextView by bindView(R.id.text_misc)
