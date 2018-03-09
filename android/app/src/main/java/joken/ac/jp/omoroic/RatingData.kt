@@ -12,6 +12,6 @@ data class RatingData(
         val station: String,
         @SerializedName("value")
         val netaType: String,
-        @SerializedName("value")
+        @SerializedName("rating_count")
         val ratingCount: Int
 )
