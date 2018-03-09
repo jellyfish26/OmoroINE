@@ -10,6 +10,8 @@ import android.nfc.Tag
 import android.nfc.tech.NfcF
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import okio.ByteString
 import java.io.BufferedReader
 import java.io.FileInputStream
 import java.io.IOException
@@ -82,6 +84,7 @@ class MainActivity : AppCompatActivity()
         val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG) ?: return
 
         nfcReader.readTag(tag)
+
     }
 
     override fun onPause()
