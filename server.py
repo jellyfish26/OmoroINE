@@ -4,6 +4,7 @@ import json
 from linebot import webhook
 import setting
 import main
+from mainDB import *
 
 @post('/')
 def line_post():
