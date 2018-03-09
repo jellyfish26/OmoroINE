@@ -125,6 +125,7 @@ class AndroidKeyStoreManager private constructor(private var mContext: Context?)
 
         } catch (e: GeneralSecurityException) {
             e.printStackTrace()
+
             throw RuntimeException("Decryption failed.")
         }
 

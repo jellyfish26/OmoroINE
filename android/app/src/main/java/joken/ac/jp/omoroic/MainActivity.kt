@@ -1,13 +1,22 @@
 package joken.ac.jp.omoroic
 
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.NfcF
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import okio.ByteString
+import java.io.BufferedReader
+import java.io.FileInputStream
+import java.io.IOException
+import java.io.InputStreamReader
+import java.nio.charset.Charset
 
 class MainActivity : AppCompatActivity()
 {
@@ -18,6 +27,10 @@ class MainActivity : AppCompatActivity()
     private var pendingIntent: PendingIntent? = null
     private val nfcReader = NfcReader()
 
+    private var KeyStoreM: AndroidKeyStoreManager? = null
+
+    private var Stoken: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -25,6 +38,18 @@ class MainActivity : AppCompatActivity()
 
         pendingIntent = PendingIntent.getActivity(
                 this, 0, Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0)
+
+        val intent = Intent(this, LoginActivity::class.java)
+
+        KeyStoreM = AndroidKeyStoreManager.getInstance(this)
+
+        var pref: SharedPreferences = getSharedPreferences("pref",MODE_PRIVATE)
+
+        if(pref.getString("token","") == "") {
+            startActivity(intent)
+        }
+
+        //var token: ByteArray = KeyStoreM!!.decrypt(pref.getString("token","").toByteArray())
 
         val ndef = IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED)
 
@@ -59,6 +84,7 @@ class MainActivity : AppCompatActivity()
         val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG) ?: return
 
         nfcReader.readTag(tag)
+
     }
 
     override fun onPause()
