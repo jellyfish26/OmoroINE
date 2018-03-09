@@ -7,10 +7,10 @@ import com.google.gson.annotations.SerializedName
  */
 data class StationData(
         @SerializedName("Company")
-        val company:String,
+        val company: String,
         @SerializedName("LineName")
-        val lineName:String,
+        val lineName: String,
         @SerializedName("StationName")
-        val stationName:String,
+        val stationName: String,
         @SerializedName("Memo")
-        val misc:String)
+        val misc: String)
