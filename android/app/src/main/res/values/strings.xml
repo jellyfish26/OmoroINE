@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">OmoroIC</string>
+    <string name="title_login">ログイン</string>
+    <string name="hint_login">本アプリケーションを使用するには、LINEアカウントでのログインが必要です。</string>
+    <string name="do_login">LINEを使用してログイン</string>
+    <string name="quit_login">終了</string>
+    <string name="title_main_waiting">ICカードタッチ</string>
+    <string name="title_main_confirm">送信確認</string>
+    <string name="nfc_waiting">ICカードを本体近くにかざしてください</string>
+    <string name="nfc_permission_required">本アプリケーションはNFCの使用権限が必要です。</string>
+    <string name="nfc_power_required">本体設定からNFCをONにしてください。</string>
+    <string name="confirm_ok">おくるで</string>
+    <string name="confirm_no">あかんで</string>
+</resources>
