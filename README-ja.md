@@ -2,7 +2,7 @@
   
 TURNKHackathon's project (in Osaka 2018)  
   
-##概要  
+## 概要  
 関西の駅で、もっと面白く。  
   
 LINE Message APIを用いて，乗り降りした駅の面白情報を共有します。  
