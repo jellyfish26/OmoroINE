@@ -21,7 +21,7 @@ Team: incomplete
 Member:  
   
 jellyfish26  
-Team Leader & Android Development & FeliCa Read Development  
+Team Leader & Android Development & FeliCa Read Development & English translation  
   
 trust2799  
 FeliCa Read Development & Presentation  
