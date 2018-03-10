@@ -14,12 +14,25 @@ LINEから位置情報を送信して駅を選択。また，ICカードの乗�
 関西の駅を利用する人へ笑いを提供します。
   
 ## 開発者  
-(githubアカウントIDで書いています)  
+チーム：incomplete
+  
+Member:  
+  
 jellyfish26  
+チームリーダー & Android開発 & FeliCa読み取り開発  
+  
 trust2799  
+FeliCa読み取り開発 & プレゼンテーション  
+  
 mi-24v  
+Android開発  
+    
 NAKNAO-nnct  
+サーバーサイド開発  
+    
 tadaren  
+サーバーサイド開発
+    
   
 ## LICENSE  
 このレポジトリはMITライセンスによってOSS化されています  

@@ -16,12 +16,25 @@ Feedback the interestingness to the interesting information taught for me.
 We will provide "laugh" to people using stations in the Kansai area.  
   
 ## developer
-(It is written with github account ID)  
+Team: incomplete  
+  
+Member:  
+  
 jellyfish26  
+Team Leader & Android Development & FeliCa Read Development  
+  
 trust2799  
+FeliCa Read Development & Presentation  
+  
 mi-24v  
-NAKNAO-nnct  
+Android development  
+  
+NAKANO-nnct  
+Server side development  
+  
 tadaren  
+Server side development  
+  
   
 ## LICENSE  
 This repository is open-source by MIT license  
