@@ -16,7 +16,7 @@ Feedback the interestingness to the interesting information taught for me.
 We will provide "laugh" to people using stations in the Kansai area.  
   
 ## developer
-(It is written with github account ID)
+(It is written with github account ID)  
 jellyfish26  
 trust2799  
 mi-24v  
