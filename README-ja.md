@@ -37,4 +37,4 @@ tadaren
 ## LICENSE  
 このレポジトリはMITライセンスによってOSS化されています  
 
-Copyright © 2018 incompete
+Copyright © 2018 incomplete

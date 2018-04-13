@@ -39,7 +39,7 @@ Server side development
 ## LICENSE  
 This repository is open-source by MIT license  
   
-Copyright © 2018 incompete
+Copyright © 2018 incomplete
 
 
 
